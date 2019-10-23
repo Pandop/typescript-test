@@ -1,39 +1,49 @@
-import express,{Application, Request, Response} from 'express';
+import express, { Application, Request, Response } from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import handlebars from 'express-handlebars';
-import indexRoutes from './routes';
+import { Routes } from './routes';
+import mongoose from 'mongoose';
+//import DbConnUri from "../config.json";
 
 
 class App {
 	private app: Application;
-	private PORT = process.env.NODE_ENV||3004
+	private route: Routes = new Routes();
+	private PORT = process.env.NODE_ENV || 3004
 
-	constructor(){
+	constructor() {
 		this.app = express();
-		this.settings();
-		this.middlewares();
-		this.routes();
+		this.Settings();
+		this.Middlewares();
+		this.Route();
+		this.DbConnect();
 		//TODO: add more ...
-		
+
 	}
 
-	public start():void{
+	public Start(): void {
 		const port = this.PORT;
-		this.app.listen(port,()=>{console.log(`Server running on Port ${port}`)})
-				.on("error",(err:Error)=> {console.log(`Oops something went wrong! Erro ${err}`)});
+		this.app.listen(port, () => console.log(`Server running on Port ${port}`))
+			.on("error", (err: Error) => console.log(`Oops something went wrong! Erro ${err}`));
 	}
-	private routes():void{
+	private Route(): void {
 		//const indexRouter = new indexRoutes();
-		this.app.use(indexRoutes);
+		this.app.use(this.route.Router);
 	}
 
-	private middlewares():void{
+	private Middlewares(): void {
 		this.app.use(morgan('dev'));
 		this.app.use(bodyParser.urlencoded({ extended: false }));
 	}
-	private settings():void{
-		this.app.set('port',this.PORT);
+	private Settings(): void {
+		this.app.set('port', this.PORT);
+	}
+	private DbConnect(): void {
+		mongoose
+			.connect("mongodb://localhost/express-app-tutorial", { useUnifiedTopology: true, useNewUrlParser: true })
+			.then(() => console.log("db connected!"))
+			.catch((err: Error) => console.log("Something went wrong! Error:", err.message));
 	}
 }
 
