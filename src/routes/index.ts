@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import BooksController from '../controllers/booksController';
+import { Router } from 'express';
+import BooksController from '../services/BookService';
 //
 // const router = Router();
 
@@ -13,16 +13,17 @@ export class Routes {
 	constructor() {
 		this._book = new BooksController();
 		this._router = Router();
-		//this.BookRoutes();
+		// this.BookRoutes();
 	}
 
-	///Routes Getter
+	/// Routes Getter
 	public get Router() {
-		return this.BookRoutes();	//return this._router;
+		return this.BookRoutes();	// return this._router;
 	}
 
 	private BookRoutes(): Router {
-		//GET/
+
+		// Route for POST & GET
 		this._router.route('/')
 			.get(this._book.GetAll)
 			.post(this._book.Create);
@@ -32,7 +33,7 @@ export class Routes {
 			.get(this._book.GetById)
 			.delete(this._book.Remove);
 
-		//PUT /:id/edit => updating Item
+		// PUT /:id/edit => updating Item
 		this._router.route('/:id/edit')
 			.put(this._book.Update);
 
@@ -40,4 +41,4 @@ export class Routes {
 	}
 }
 
-//export default Routes;
+// export default Routes;
