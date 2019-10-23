@@ -15,6 +15,11 @@
             true,
             "single"
         ],
+        "no-console": [
+            false,
+            "log",
+            "error"
+        ],
         "variable-name": [
             true,
             "allow-leading-underscore"
