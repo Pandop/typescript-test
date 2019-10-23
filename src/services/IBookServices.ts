@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 export interface IBook {
 	GetAll(req: Request, res: Response): Promise<void | Response>;
 	Create(req: Request, res: Response): Promise<void | Response>;
