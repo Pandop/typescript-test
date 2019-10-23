@@ -1,7 +1,11 @@
 import App from './app';
+import database from './database';
+
+// create app instance
+const app = new App();
+
+// connect db
+database.connect();
 
 // start server
-const app = new App();
 app.start();
-
-console.log("Hello");

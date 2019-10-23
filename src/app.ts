@@ -1,16 +1,20 @@
 import express,{Application, Request, Response} from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import handlebars from 'express-handlebars';
+import indexRoutes from './routes';
+
 
 class App {
 	private app: Application;
 	private PORT = process.env.NODE_ENV||3004
+
 	constructor(){
 		this.app = express();
 		this.settings();
 		this.middlewares();
 		this.routes();
-		//this.start();
+		//TODO: add more ...
 		
 	}
 
@@ -20,7 +24,8 @@ class App {
 				.on("error",(err:Error)=> {console.log(`Oops something went wrong! Erro ${err}`)});
 	}
 	private routes():void{
-		this.app.get("/", (req:Request, res:Response) => { res.send("Hello you all")});
+		//const indexRouter = new indexRoutes();
+		this.app.use(indexRoutes);
 	}
 
 	private middlewares():void{
